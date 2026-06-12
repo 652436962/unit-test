@@ -1,0 +1,9 @@
+# 排除 linuxsdk 文件夹
+linuxsdk/
+
+# 系统目录
+lost+found/
+
+# 回收站
+.Trash-0/
+.Trash-1000/

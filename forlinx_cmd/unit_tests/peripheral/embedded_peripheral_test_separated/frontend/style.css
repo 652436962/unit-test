@@ -1,0 +1,266 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.header {
+    background-color: #000;
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 30px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.app-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.app-item:hover {
+    transform: scale(1.05);
+}
+
+.app-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #fff;
+}
+
+.gpio-icon {
+    background-color: #3498db;
+}
+
+.uart-icon {
+    background-color: #9b59b6;
+}
+
+.led-icon {
+    background-color: #e74c3c;
+}
+
+.rtc-icon {
+    background-color: #3498db;
+}
+
+.watchdog-icon {
+    background-color: #f39c12;
+}
+
+.app-name {
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.result {
+    margin: 20px;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.result h2 {
+    color: #fff;
+    margin-top: 0;
+    font-size: 16px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+#result-content {
+    margin-top: 15px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top-color: #4CAF50;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.error {
+    color: #f44336;
+}
+
+.success {
+    color: #4CAF50;
+}
+
+.test-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #2a2a2a;
+    border-radius: 4px;
+}
+
+.test-item strong {
+    display: inline-block;
+    width: 120px;
+    color: #ccc;
+}
+
+.test-item span {
+    color: #fff;
+}
+
+.gpio-input {
+    margin: 20px;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.gpio-input h3 {
+    color: #fff;
+    margin-top: 0;
+    font-size: 16px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.input-group label {
+    color: #ccc;
+    font-size: 14px;
+    min-width: 80px;
+}
+
+.input-group input[type="number"] {
+    padding: 8px;
+    background-color: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    width: 100px;
+}
+
+.input-group select {
+    padding: 8px;
+    background-color: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    min-width: 100px;
+}
+
+.input-group select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.uart-data-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+}
+
+.data-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.data-group label {
+    color: #ccc;
+    font-size: 14px;
+    min-width: 80px;
+}
+
+.data-group input[type="text"],
+.data-group textarea {
+    padding: 10px;
+    background-color: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    width: 400px;
+}
+
+.data-group input[type="text"] {
+    height: 40px;
+}
+
+.data-group textarea {
+    height: 100px;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+.data-group button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.data-group button:hover {
+    background-color: #2980b9;
+}
+
+.test-settings {
+    margin: 20px;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+#rtc-settings .input-group {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>嵌入式板卡外设测试</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Embedded Peripheral Tester</h1>
+    </div>
+    
+    <div class="app-grid">
+        <div class="app-item" id="test-gpio">
+            <div class="app-icon gpio-icon">⚡</div>
+            <div class="app-name">GPIO Test</div>
+        </div>
+        
+        <div class="app-item" id="test-uart">
+            <div class="app-icon uart-icon">🔌</div>
+            <div class="app-name">UART Test</div>
+        </div>
+        
+        <div class="app-item" id="test-led">
+            <div class="app-icon led-icon">💡</div>
+            <div class="app-name">LED Test</div>
+        </div>
+        
+        <div class="app-item" id="test-rtc">
+            <div class="app-icon rtc-icon">🕒</div>
+            <div class="app-name">RTC Test</div>
+        </div>
+        
+        <div class="app-item" id="test-watchdog">
+            <div class="app-icon watchdog-icon">🐶</div>
+            <div class="app-name">Watchdog Test</div>
+        </div>
+    </div>
+    
+    <!-- 测试设置容器 -->
+    <div class="test-settings">
+        <!-- GPIO引脚号输入 -->
+        <div id="gpio-settings" class="setting-section">
+            <h3>GPIO测试设置</h3>
+            <div class="input-group">
+                <label for="gpio-pin">引脚号：</label>
+                <input type="number" id="gpio-pin" placeholder="输入GPIO引脚号" value="4">
+                <select id="gpio-direction">
+                    <option value="out">输出</option>
+                    <option value="in">输入</option>
+                </select>
+                <select id="gpio-value" disabled>
+                    <option value="1">高电平</option>
+                    <option value="0">低电平</option>
+                </select>
+                <button id="gpio-execute">执行</button>
+            </div>
+        </div>
+        
+        <!-- UART测试设置 -->
+        <div id="uart-settings" class="setting-section" style="display: none;">
+            <h3>UART测试设置</h3>
+            <div class="input-group">
+                <label for="uart-port">端口号：</label>
+                <select id="uart-port">
+                    <option value="/dev/ttyS0">/dev/ttyS0</option>
+                    <option value="/dev/ttyS1">/dev/ttyS1</option>
+                    <option value="/dev/ttyS2">/dev/ttyS2</option>
+                    <option value="/dev/ttyS3">/dev/ttyS3</option>
+                    <option value="/dev/ttyUSB0">/dev/ttyUSB0</option>
+                </select>
+                <label for="uart-baudrate">波特率：</label>
+                <select id="uart-baudrate">
+                    <option value="9600">9600</option>
+                    <option value="19200">19200</option>
+                    <option value="38400">38400</option>
+                    <option value="115200">115200</option>
+                </select>
+                <label for="uart-data-bits">数据位：</label>
+                <select id="uart-data-bits">
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8" selected>8</option>
+                </select>
+                <label for="uart-parity">校验位：</label>
+                <select id="uart-parity">
+                    <option value="none" selected>无</option>
+                    <option value="even">偶校验</option>
+                    <option value="odd">奇校验</option>
+                </select>
+                <label for="uart-stop-bits">停止位：</label>
+                <select id="uart-stop-bits">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                </select>
+                <button id="uart-open-button">打开串口</button>
+            </div>
+            
+            <!-- 串口数据发送和接收 -->
+            <div class="uart-data-section">
+                <div class="data-group">
+                    <label for="uart-send-data">发送数据：</label>
+                    <input type="text" id="uart-send-data" placeholder="输入要发送的数据" value="Hello UART!">
+                    <button id="uart-send-button">发送</button>
+                </div>
+                <div class="data-group">
+                    <label for="uart-receive-data">接收数据：</label>
+                    <textarea id="uart-receive-data" placeholder="接收的数据将显示在这里" readonly rows="4" cols="40"></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LED测试设置 -->
+        <div id="led-settings" class="setting-section" style="display: none;">
+            <h3>LED测试设置</h3>
+            <div class="input-group">
+                <label for="led-pattern">闪烁模式：</label>
+                <select id="led-pattern">
+                    <option value="blink">闪烁</option>
+                    <option value="on">常亮</option>
+                    <option value="off">常灭</option>
+                </select>
+                <label for="led-count">闪烁次数：</label>
+                <input type="number" id="led-count" placeholder="输入闪烁次数" value="3" min="1" max="10">
+                <button id="led-execute">执行</button>
+            </div>
+        </div>
+        
+        <!-- RTC测试设置 -->
+        <div id="rtc-settings" class="setting-section" style="display: none;">
+            <h3>RTC测试设置</h3>
+            <div class="input-group">
+                <label for="rtc-time">设置时间：</label>
+                <input type="text" id="rtc-time" value="2026-02-25 14:30:00" placeholder="格式：2026-02-25 14:30:00">
+            </div>
+            <div class="input-group">
+                <label for="rtc-read-time">读取时间：</label>
+                <input type="text" id="rtc-read-time" placeholder="读取的时间将显示在这里" readonly>
+            </div>
+            <div class="input-group">
+                <button id="rtc-read">读取时间</button>
+                <button id="rtc-write">设置时间</button>
+            </div>
+        </div>
+        
+        <!-- 看门狗测试设置 -->
+        <div id="watchdog-settings" class="setting-section" style="display: none;">
+            <h3>看门狗测试设置</h3>
+            <div class="input-group">
+                <label for="watchdog-timeout">超时时间(秒)：</label>
+                <input type="number" id="watchdog-timeout" placeholder="输入超时时间" value="10" min="1" max="60">
+                <button id="watchdog-execute">执行</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+#
+# Reference http://www.gnu.org/software/make/manual/make.html
+#
+#CONFIG_USE_LOGCAT = true
+
+MAKE = make -j32
+
+#ifneq ($(CONFIG_USE_LOGCAT), true)
+#exclude_dirs += ./liblog% ./logcat% 
+#else
+#DEFINES += -DUSE_LOGCAT
+#LOGCAT = logcat
+#endif
+
+exclude_dirs := bin
+
+dirs := $(shell find . -maxdepth 1 -type d)
+dirs := $(basename $(patsubst ./%,%,$(dirs)))
+dirs := $(filter-out $(exclude_dirs),$(dirs))
+SUBDIRS := $(dirs)
+
+all:
+	$(shell mkdir -p bin)
+	for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir ;\
+		if [ "$$?" != "0" ]; then\
+			echo "===============================================compile $$dir fail"; \
+			exit 1 ; \
+		fi;\
+	done
+
+.PHONY: clean distclean cleanall
+$(SUBDIRS):ECHO
+	+$(MAKE) -C $@
+ECHO:
+	@echo begin compile $(SUBDIRS)
+
+clean: $(clean_dirs) 
+	for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir clean;\
+	done
+	$(shell rm -r bin)
+
+install:
+	for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir install;\
+	done
+	
+distclean:
+	for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir distclean;\
+	done
+	
+cleanall:
+	for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir cleanall;\
+	done

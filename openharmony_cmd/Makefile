@@ -1,0 +1,61 @@
+#
+# Reference http://www.gnu.org/software/make/manual/make.html
+#
+CONFIG_USE_LOGCAT = true
+
+# Cross-compiler toolchain
+TOOLCHAIN_PATH = /media/lechi/linuxsdk/linuxsdk/openharmony_T527/forlinx-5.0-release/prebuilts/gcc/linux-x86/aarch64/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin
+CROSS_COMPILE = $(TOOLCHAIN_PATH)/aarch64-linux-gnu-
+export CROSS_COMPILE
+
+MAKE = make -j32
+
+exclude_dirs := include bin
+
+ifneq ($(CONFIG_USE_LOGCAT), true)
+exclude_dirs += ./liblog% ./logcat% 
+else
+DEFINES += -DUSE_LOGCAT
+LOGCAT = logcat
+endif
+
+dirs := $(shell find . -maxdepth 1 -type d)
+dirs := $(basename $(patsubst ./%,%,$(dirs)))
+dirs := $(filter-out $(exclude_dirs),$(dirs))
+SUBDIRS := $(dirs)
+
+all:
+	for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir ;\
+		if [ "$$?" != "0" ]; then\
+			echo "compile $$dir fail"; \
+			exit 1 ; \
+		fi;\
+	done
+
+.PHONY: clean distclean cleanall
+$(SUBDIRS):ECHO
+	+$(MAKE) -C $@
+ECHO:
+	@echo begin compile $(SUBDIRS)
+
+clean: $(clean_dirs) 
+	for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir clean;\
+	done
+	rm -rf bin
+
+install:
+	for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir install;\
+	done
+	
+distclean:
+	for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir distclean;\
+	done
+	
+cleanall:
+	for dir in $(SUBDIRS);\
+	do $(MAKE) -C $$dir cleanall;\
+	done
